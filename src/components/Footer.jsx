@@ -1,14 +1,18 @@
 export const Footer = () => {
   return (
-    <div className="position-absolute top-50 start-50 translate-middle">
-      <h5>Appharma - Avaliação Módulo 1</h5>
-      <h6>
+    <div className="d-block text-center p-2 m-auto text-bg-dark">
+      <span className="fs-6">Appharma - Avaliação Módulo 1</span>
+      <br />
+      <span className="fs-6">
         Trabalho desenvolvido por
-        <a href="mailto:erico.coutojr@gamil" className="text-decoration-none">
+        <a
+          href="mailto:erico.coutojr@gamil"
+          className="fst-italic text-decoration-none"
+        >
           {' '}
           Erico Couto Jr.
         </a>
-      </h6>
+      </span>
     </div>
   );
 };
