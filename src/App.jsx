@@ -1,11 +1,11 @@
-function App() {
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+
+export const App = () => {
   return (
     <div>
-      <h4 className="text-center" text>
-        Teste de App
-      </h4>
+      <Header />
+      <Footer />
     </div>
   );
-}
-
-export default App;
+};
