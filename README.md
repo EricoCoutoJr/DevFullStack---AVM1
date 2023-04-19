@@ -26,12 +26,6 @@ Obs: necessário configurar SSH [(veja como clicando aqui)](https://www.youtube.
 npm install
 ```
 
-- Rode o servidor
-
-```bash
-npm run server
-```
-
 - Rode o projeto
 
 ```bash
@@ -40,6 +34,8 @@ npm run dev
 
 ### Observações
 
-Este projeto vem com o [JSON Server](https://www.npmjs.com/package/json-server) instalado e configurado.
+Não será usado um servidor Json, mas a escrita e a leitura será feita em um arquivo local usando 'fs' (file system) que deve estar instalado. Instalação indicada a seguir.
 
-- Será usada a porta 3000 para acesso aos dados
+```bash
+npm install fs
+```
