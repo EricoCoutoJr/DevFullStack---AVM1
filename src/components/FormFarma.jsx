@@ -168,6 +168,7 @@ export const FormFarma = () => {
               id="cep"
               size="10"
               maxLength="9"
+              defaultValue=""
               {...register('cep')}
               onBlur={handleSubmit(onBlur)}
             />
