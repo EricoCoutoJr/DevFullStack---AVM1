@@ -1,4 +1,85 @@
 {
-  "med": [],
-  "farma": []
+  "med": [
+    {
+      "nomeMed": "dfsggggerg",
+      "nomeLab": "jhkhkkhk",
+      "doseMed": "jh",
+      "descMed": "kjkhkk ljljkjljkljkl ljkkljk ",
+      "precoMed": "20.5",
+      "tipoMed": "2",
+      "id": 1
+    },
+    {
+      "nomeMed": "tylenol",
+      "nomeLab": "sei lá",
+      "doseMed": "4h",
+      "descMed": "paracetamos",
+      "precoMed": "5",
+      "tipoMed": "1",
+      "id": 2
+    },
+    {
+      "nomeMed": "Aspirina",
+      "nomeLab": "Bayer",
+      "doseMed": "sei lá",
+      "descMed": "Ácido acetilsalicílico",
+      "precoMed": "5",
+      "tipoMed": "1",
+      "id": 3
+    }
+  ],
+  "farma": [
+    {
+      "cnpj": "12345678912345",
+      "razaosocial": "medicamento Sa",
+      "nomefantasia": "Farmacias Ze",
+      "email": "erico.coutojr@gmail.com",
+      "telefone": "+554899102116",
+      "celular": "(48) 99102-1166",
+      "cep": "88070100",
+      "rua": "Rua Santos Saraiva",
+      "numero": "100",
+      "complemento": "151",
+      "bairro": "Estreito",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "id": 1
+    },
+    {
+      "cnpj": "12345678912345",
+      "razaosocial": "medicamento Sa",
+      "nomefantasia": "Farmacias Lu",
+      "email": "Lulu@melecas.com",
+      "telefone": "4899999999",
+      "celular": "4899999999",
+      "cep": "88070101",
+      "rua": "Rua Santos Saraiva",
+      "numero": "",
+      "complemento": "",
+      "bairro": "Capoeiras",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "id": 2
+    },
+    {
+      "cnpj": "12345678912345",
+      "razaosocial": "medicamento Sa",
+      "nomefantasia": "Farmacias Lu",
+      "email": "Lulu@melecas.com",
+      "telefone": "4899999999",
+      "celular": "4899999999",
+      "cep": "88070101",
+      "rua": "Rua Santos Saraiva",
+      "numero": "",
+      "complemento": "",
+      "bairro": "Capoeiras",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "geoLocal": {
+        "lat": "-27.45",
+        "lon": "-47.00"
+      },
+      "id": 3
+    }
+  ]
 }

@@ -34,8 +34,9 @@ npm run dev
 
 ### Observações
 
-Não será usado um servidor Json, mas a escrita e a leitura será feita em um arquivo local usando 'fs' (file system) que deve estar instalado. Instalação indicada a seguir.
+É necessário iniciar o servidor 'json-serve. Para isso basta rodar o
+NPM como descrito abaixo. O servidor já está configurado.
 
 ```bash
-npm install fs
+npm run serve
 ```

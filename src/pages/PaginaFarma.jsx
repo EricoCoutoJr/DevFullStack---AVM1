@@ -1,4 +1,5 @@
 import { FormFarma } from '../components/FormFarma';
+import { Mapa } from '../components/Mapa';
 
 export const PaginaFarma = () => {
   return (
@@ -51,8 +52,7 @@ export const PaginaFarma = () => {
           aria-labelledby="nav-mapa-tab"
           tabIndex="0"
         >
-          {/* Inserir aqui o Módulo do mapa */}
-          <p>Item com a mapa das farmácias</p>
+          <Mapa />
         </div>
       </div>
     </div>

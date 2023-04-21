@@ -1,86 +1,67 @@
-import '../models/getAdress.js';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { AppContext } from '../App';
 import { useForm } from 'react-hook-form';
 
 // ---------------------------------------------------
 export const FormFarma = () => {
-  const [formState, setFormState] = useState({});
+  const { postDados } = useContext(AppContext);
+
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
+    reset,
     formState: { errors },
   } = useForm();
 
   // Clocar aqui as ações após a saida do campo CEP
+  function limpaFormulario() {
+    setValue('rua', '');
+    setValue('bairro', '');
+    setValue('numero', '');
+    setValue('cidade', '');
+    setValue('uf', '');
+  }
   const onBlur = data => {
     fetch(`https://viacep.com.br/ws/${data.cep}/json/`)
       .then(res => res.json())
       .then(dadosViaCEP => {
-        console.log(dadosViaCEP);
-        setValue('rua', dadosViaCEP.logradouro);
-        setValue('numero', dadosViaCEP.complemento);
-        setValue('bairro', dadosViaCEP.bairro);
-        setValue('cidade', dadosViaCEP.localidade);
-        setValue('uf', dadosViaCEP.uf);
-        console.log(data);
-        getLonLat(data);
-      })
-      .catch(error =>
-        console.error('Erro ao fazer solicitação à API de CEP.', error)
-      );
+        if (!dadosViaCEP.error) {
+          setValue('rua', dadosViaCEP.logradouro);
+          setValue('numero', dadosViaCEP.complemento);
+          setValue('bairro', dadosViaCEP.bairro);
+          setValue('cidade', dadosViaCEP.localidade);
+          setValue('uf', dadosViaCEP.uf);
+        } else {
+          // CEP pesquisado não foi encontrado.
+          limpaFormulario();
+          alert('CEP não encontrado.');
+        }
+      });
+  };
+  //------------------------------------------------------
+  const montarEnd = endereco => {
+    var enderecoURL = '';
+    for (let index = 0; index < endereco.length; index++) {
+      if (endereco[index]) {
+        enderecoURL = endereco[index] = '+';
+      }
+      return enderecoURL;
+    }
   };
 
   // -----------------------------------------------------
-
-  const getLonLat = data => {
-    // Modelando a entrada da url para a API que retorna a Geolocalização do endereço.
-    // street=<housenumber> <streetname>
-    // city=<city>
-    // county=<county>
-    // state=<state>
-    // country=<country>
-    // postalcode=<postalcode>
-
-    // Na linha referente a cidade foi efetuado um procedimento
-    const address = {
-      street: data.numero + ' ' + data.rua,
-      city: data.cidade,
-      state: data.uf,
-      postalcode: data.cep,
-      country: 'Brazil',
-    };
-
-    const queryString = Object.entries(address)
-      .map(
-        ([key, value]) =>
-          `${key}=${encodeURIComponent(value).replace(/%20/g, '+')}`
-      )
-      .join('&');
-
-    const baseUrl = 'https://geocode.maps.co/search';
-    const url = `${baseUrl}?${queryString}`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(dataGeo => {
-        console.log(dataGeo);
-        console.log(url);
-      })
-      .catch(error =>
-        console.error('Erro ao fazer solicitação à API do GeoCODE.maps', error)
-      );
+  const onSubmit = data => {
+    postDados('farma', data);
   };
-
   // -----------------------------------------------------
-
-  function handleInputChange(e) {
-    const { id, value } = e.target;
-    setFormState(prevState => ({ ...prevState, [id]: value }));
-  }
 
   return (
-    <form className="p-3 mx-5 my-4 shadow bg-secondary-subtle border border-secondary-subtle rounded-3">
+    <form
+      className="p-3 mx-5 my-4 shadow bg-secondary-subtle border border-secondary-subtle rounded-3"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="row mb-2">
         <div className="col-3">
           <label htmlFor="CnpjFarma" className="form-label">

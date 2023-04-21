@@ -1,50 +1,39 @@
-const fs = require('fs-extra').promises;
+import { AppContext } from '../App';
+import { useContext } from 'react';
 
-// Nessa função, utilizamos o método readFile para ler o conteúdo
-// do arquivo ddatabase.json e o método JSON.parse para converter
-// o conteúdo em um objeto JavaScript.
-// Em seguida, retornamos os dados lidos do arquivo.
+export const getDados = path => {
+  const { setListaMed, setListaFarma } = useContext(AppContext);
 
-export async function readJson(path) {
-  try {
-    const arquivo = await fs.readFile(filePath);
-    const dados = JSON.parse(arquivo);
-    console.log(dados);
-    return dados;
-  } catch (error) {
-    console.error(`Erro ao tentar ler arquivo: ${error.message}`);
-  }
-}
+  const setGet = (path, dados) => {
+    if (path === 'farma') {
+      setListaFarma(dados);
+    }
+    if (path === 'med') {
+      setListaMed(dados);
+    }
+  };
+  debugger;
+  //get no json server
+  fetch(`http://localhost:3000/${path}`, {
+    method: 'GET',
+    headers: { 'Content-type': 'application/json;charset=UTF-8' },
+  })
+    .then(resposta => resposta.json())
+    .then(dados => {
+      setGet(path, dados);
+    })
+    .catch(error => console.log(error));
+};
 
-//  Nessa função, utilizamos o método JSON.stringify para converter
-//  o objeto JavaScript em uma string JSON e
-//  o método writeFileSync para escrever o conteúdo no
-//  arquivo database.json.
+export const postDados = (path, dados) => {
+  // post no json server
+  // post("/listaEndereco", endereco)
 
-export async function writeJson(path, dados) {
-  try {
-    const json = JSON.stringify(dados);
-    await fs.writeFile(path, json);
-  } catch (error) {
-    console.error(`Ocorreu um erro ao tentar gravar: ${error.message}`);
-  }
-}
-
-// Abaixo, um exemplo de como utilizar o módulo JsonReadWrite.js
-//
-// const { readJson, writeJson } = require('../models/JsonReadWrite')
-
-// const path= '../data/database.json'
-
-// const dados = readJson(path)
-// console.log(dados)
-
-// Abaixo, o exemplo irá ser dado um push apenas no array farmacias
-
-// dados.farma.push({
-//   nome: 'Farmácia 3',
-//   endereco: 'Rua C, 789',
-//   telefone: '(33) 3333-3333'
-// })
-
-// writeJson(path, dados)
+  fetch(`http://localhost:3000/${path}`, {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json;charset=UTF-8' },
+    body: JSON.stringify(dados),
+  })
+    .then(() => console.log('enviado com sucesso'))
+    .catch(error => console.log(error));
+};

@@ -1,4 +1,5 @@
 import { FormMed } from '../components/FormMed';
+import { ListaCardsMed } from '../components/ListaCardsMed';
 
 export const PaginaMed = () => {
   return (
@@ -53,6 +54,8 @@ export const PaginaMed = () => {
         >
           {/* Inserir aqui o módulo de lista de cards */}
           <p>Item com a lista de medicamentos</p>
+          <ListaCardsMed />
+          <p>Teste de link dos Cards</p>
           {/* Inserir aqui o módulo de lista de cards de medicamento */}
         </div>
       </div>
