@@ -11,6 +11,7 @@ export const App = () => {
   const [menu, setMenu] = useState(false);
   const [listaMed, setListaMed] = useState({});
   const [listaFarma, setListaFarma] = useState({});
+  const [geoLocal, setGeoLocal] = useState({});
   const navigate = useNavigate();
 
   // // Inserir abaixo funções e variáveis utilizadas por todo o Appharma
@@ -24,6 +25,8 @@ export const App = () => {
     setListaMed,
     listaFarma,
     setListaFarma,
+    geoLocal,
+    setGeoLocal,
   };
 
   return (

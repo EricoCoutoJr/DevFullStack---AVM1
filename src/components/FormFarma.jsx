@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { AppContext } from '../App';
 import { useForm } from 'react-hook-form';
+import { GetGeoLocal } from '../models/geoLocal';
 
 // ---------------------------------------------------
 export const FormFarma = () => {
-  const { postDados } = useContext(AppContext);
+  const { postDados, geoLocal } = useContext(AppContext);
 
   const {
     register,
@@ -14,6 +15,14 @@ export const FormFarma = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const getAddress = () => {
+    // Obter os valores dos campos de endereço
+    const { rua, numero, cidade, uf, cep } = getValues();
+
+    // Retornar o endereço formatado como uma string
+    return `street=${rua}+${numero}&city=${cidade}&state=${uf}&country=Brazil&postcode=${cep}`;
+  };
 
   // Clocar aqui as ações após a saida do campo CEP
   function limpaFormulario() {
@@ -33,6 +42,8 @@ export const FormFarma = () => {
           setValue('bairro', dadosViaCEP.bairro);
           setValue('cidade', dadosViaCEP.localidade);
           setValue('uf', dadosViaCEP.uf);
+          GetGeoLocal(getAddress());
+          console.log(geoLocal);
         } else {
           // CEP pesquisado não foi encontrado.
           limpaFormulario();
@@ -41,15 +52,6 @@ export const FormFarma = () => {
       });
   };
   //------------------------------------------------------
-  const montarEnd = endereco => {
-    var enderecoURL = '';
-    for (let index = 0; index < endereco.length; index++) {
-      if (endereco[index]) {
-        enderecoURL = endereco[index] = '+';
-      }
-      return enderecoURL;
-    }
-  };
 
   // -----------------------------------------------------
   const onSubmit = data => {
@@ -174,6 +176,7 @@ export const FormFarma = () => {
               className="form-control"
               id="rua"
               {...register('rua')}
+              disabled
             />
           </div>
           <div className="col-2">
@@ -211,6 +214,7 @@ export const FormFarma = () => {
               className="form-control"
               id="bairro"
               {...register('bairro')}
+              disabled
             />
           </div>
           <div className="col-4">
@@ -222,6 +226,7 @@ export const FormFarma = () => {
               className="form-control"
               id="cidade"
               {...register('cidade')}
+              disabled
             />
           </div>
           <div className="col-4">
@@ -233,6 +238,33 @@ export const FormFarma = () => {
               className="form-control"
               id="uf"
               {...register('uf')}
+              disabled
+            />
+          </div>
+        </div>
+        <div className="row my-3">
+          <div className="col-4">
+            <label htmlFor="lng" className="form-label">
+              Longitude
+            </label>
+            <input
+              type="numero"
+              className="form-control"
+              id="lng"
+              {...register('lng')}
+              disabled
+            />
+          </div>
+          <div className="col-4">
+            <label htmlFor="lat" className="form-label">
+              Latitude
+            </label>
+            <input
+              type="numero"
+              className="form-control"
+              id="lng"
+              {...register('lat')}
+              disabled
             />
           </div>
         </div>
