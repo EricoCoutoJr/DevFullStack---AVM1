@@ -9,8 +9,8 @@ export const AppContext = createContext();
 
 export const App = () => {
   const [menu, setMenu] = useState(false);
-  const [listaMed, setListaMed] = useState({});
-  const [listaFarma, setListaFarma] = useState({});
+  const [listaMed, setListaMed] = useState([]);
+  const [listaFarma, setListaFarma] = useState([]);
   const [geoLocal, setGeoLocal] = useState({});
   const navigate = useNavigate();
 
