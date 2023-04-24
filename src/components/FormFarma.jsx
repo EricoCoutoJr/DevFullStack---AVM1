@@ -37,7 +37,9 @@ export const FormFarma = () => {
           setValue('bairro', dadosViaCEP.bairro);
           setValue('cidade', dadosViaCEP.localidade);
           setValue('uf', dadosViaCEP.uf);
-          GetGeoLocal(getAddress());
+          GetGeoLocal('Florianopolis, Brasil').then(({ lat, lon }) => {
+            console.log(`Latitude: ${lat}, Longitude: ${lon}`);
+          });
         } else {
           // CEP pesquisado não foi encontrado.
           limpaFormulario();
@@ -46,35 +48,24 @@ export const FormFarma = () => {
       });
   };
   // -----------------------------------------------------
-  const GetGeoLocal = url => {
+  const GetGeoLocal = address => {
     return fetch(
-      `https://nominatim.openstreetmap.org/search/${url}?format=json&addressdetails=1&limit=1&polygon_svg=1`,
+      `https://nominatim.openstreetmap.org/?addressdetails=1&q=${address}&format=json&limit=1`,
       {
         method: 'GET',
         headers: { 'Content-type': 'application/json;charset=UTF-8' },
+        mode: 'no-cors',
       }
     )
       .then(resposta => resposta.json())
-      .then(dados => dados.json())
-      .then(dadosGeo => {
-        if (dadosGeo) {
-          console.log(dadosGeo);
-        } else {
-          console.log(dadosGeo);
-        }
+      .then(dados => {
+        console.log(dados); // Verifica o conteúdo de "dados"
+        const { lat, lon } = dados[0];
+        return { lat, lon };
       })
       .catch(error => console.log(error));
   };
-  //------------------------------------------------------
-  const postDados = dados => {
-    fetch(`http://localhost:3000/farma`, {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json;charset=UTF-8' },
-      body: JSON.stringify(dados),
-    })
-      .then(() => console.log('enviado com sucesso'))
-      .catch(error => console.log(error));
-  };
+
   // -----------------------------------------------------
   const handleLimpaData = () => {
     setValue('cnpj', '');
