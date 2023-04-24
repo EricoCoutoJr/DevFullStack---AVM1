@@ -1,18 +1,13 @@
-import { useContext } from 'react';
-import { AppContext } from '../App';
 import { useForm } from 'react-hook-form';
 import { GetGeoLocal } from '../models/geoLocal';
 
 // ---------------------------------------------------
 export const FormFarma = () => {
-  const { postDados, geoLocal } = useContext(AppContext);
-
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -21,7 +16,7 @@ export const FormFarma = () => {
     const { rua, numero, cidade, uf, cep } = getValues();
 
     // Retornar o endereço formatado como uma string
-    return `street=${rua}+${numero}&city=${cidade}&state=${uf}&country=Brazil&postcode=${cep}`;
+    return `street=${rua}+${numero}&city=${cidade}&county=${bairro}&state=${uf}&country=Brazil&postcode=${cep}`;
   };
 
   // Clocar aqui as ações após a saida do campo CEP
@@ -32,18 +27,17 @@ export const FormFarma = () => {
     setValue('cidade', '');
     setValue('uf', '');
   }
+
   const onBlur = data => {
     fetch(`https://viacep.com.br/ws/${data.cep}/json/`)
       .then(res => res.json())
       .then(dadosViaCEP => {
-        if (!dadosViaCEP.error) {
+        if (!dadosViaCEP.erro) {
           setValue('rua', dadosViaCEP.logradouro);
-          setValue('numero', dadosViaCEP.complemento);
           setValue('bairro', dadosViaCEP.bairro);
           setValue('cidade', dadosViaCEP.localidade);
           setValue('uf', dadosViaCEP.uf);
           GetGeoLocal(getAddress());
-          console.log(geoLocal);
         } else {
           // CEP pesquisado não foi encontrado.
           limpaFormulario();
@@ -51,11 +45,56 @@ export const FormFarma = () => {
         }
       });
   };
-  //------------------------------------------------------
-
   // -----------------------------------------------------
+  const GetGeoLocal = url => {
+    return fetch(
+      `https://nominatim.openstreetmap.org/search/${url}?format=json&addressdetails=1&limit=1&polygon_svg=1`,
+      {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json;charset=UTF-8' },
+      }
+    )
+      .then(resposta => resposta.json())
+      .then(dados => dados.json())
+      .then(dadosGeo => {
+        if (dadosGeo) {
+          console.log(dadosGeo);
+        } else {
+          console.log(dadosGeo);
+        }
+      })
+      .catch(error => console.log(error));
+  };
+  //------------------------------------------------------
+  const postDados = dados => {
+    fetch(`http://localhost:3000/farma`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json;charset=UTF-8' },
+      body: JSON.stringify(dados),
+    })
+      .then(() => console.log('enviado com sucesso'))
+      .catch(error => console.log(error));
+  };
+  // -----------------------------------------------------
+  const handleLimpaData = () => {
+    setValue('cnpj', '');
+    setValue('razaosocial', '');
+    setValue('nomefantasia', '');
+    setValue('email', '');
+    setValue('telefone', '');
+    setValue('celular', '');
+    setValue('cep', '');
+    setValue('rua', '');
+    setValue('numero', '');
+    setValue('complemento', '');
+    setValue('cidade', '');
+    setValue('bairro', '');
+    setValue('uf', '');
+  };
+
   const onSubmit = data => {
-    postDados('farma', data);
+    postDados(data);
+    handleLimpaData();
   };
   // -----------------------------------------------------
 
@@ -73,8 +112,18 @@ export const FormFarma = () => {
             type="text"
             className="form-control"
             id="CnpjFarma"
-            {...register('cnpj')}
+            {...register('cnpj', {
+              required: true,
+              maxLength: 14,
+              minLength: 14,
+              pattern: /[0-9]/,
+            })}
           />
+          {errors.cnpj && (
+            <p className="text-danger fs-6 p-3">
+              ⚠ Deve ser informado CNPJ apenas com números.
+            </p>
+          )}
         </div>
         <div className=" col-9 mb-2">
           <label htmlFor="RSFarma" className="form-label">
@@ -84,8 +133,11 @@ export const FormFarma = () => {
             type="text"
             className="form-control"
             id="RSFarma"
-            {...register('razaosocial')}
+            {...register('razaosocial', { required: true })}
           />
+          {errors.razaosocial && (
+            <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
+          )}
         </div>
       </div>
       <div className="row mb-2">
@@ -97,8 +149,11 @@ export const FormFarma = () => {
             type="text"
             className="form-control"
             id="NomeFarma"
-            {...register('nomefantasia')}
+            {...register('nomefantasia', { required: true })}
           />
+          {errors.nomefantasia && (
+            <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
+          )}
         </div>
 
         <div className="col-3">
@@ -110,8 +165,14 @@ export const FormFarma = () => {
             className="form-control"
             id="InputEmailMed"
             aria-describedby="email"
-            {...register('email')}
+            {...register('email', {
+              required: true,
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            })}
           />
+          {errors.email && (
+            <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
+          )}
         </div>
 
         <div className="col-3">
@@ -122,8 +183,16 @@ export const FormFarma = () => {
             type="text"
             className="form-control"
             id="FoneFarma"
-            {...register('telefone')}
+            {...register('telefone', {
+              pattern:
+                /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/,
+            })}
           />
+          {errors.telefone && (
+            <p className="text-danger fs-6 p-3">
+              ⚠ Preencha corretamente o numero de telefone.
+            </p>
+          )}
         </div>
 
         <div className="col-3">
@@ -134,8 +203,17 @@ export const FormFarma = () => {
             type="text"
             className="form-control"
             id="CelFarma"
-            {...register('celular')}
+            {...register('celular', {
+              required: true,
+              pattern:
+                /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/,
+            })}
           />
+          {errors.celular && (
+            <p className="text-danger fs-6 p-3">
+              ⚠ Preencha corretamente o numero de telefone.
+            </p>
+          )}
         </div>
       </div>
       <div className="p-3 my-3 shadow bg-secondary-subtle border border-secondary-subtle rounded-3">
@@ -152,10 +230,16 @@ export const FormFarma = () => {
               size="10"
               maxLength="9"
               defaultValue=""
-              {...register('cep')}
+              {...register('cep', {
+                required: true,
+              })}
               onBlur={handleSubmit(onBlur)}
             />
-
+            {errors.cep && (
+              <p className="text-danger fs-6 p-3">
+                ⚠ Preencha o CEP apenas com números.
+              </p>
+            )}
             <div id="CepFarma" className="form-text">
               Consulte o{' '}
               <a
@@ -187,8 +271,16 @@ export const FormFarma = () => {
               type="text"
               className="form-control"
               id="numero"
-              {...register('numero')}
+              {...register('numero', {
+                required: true,
+                pattern: /[0-9]/,
+              })}
             />
+            {errors.numero && (
+              <p className="text-danger fs-6 p-3">
+                ⚠ Informe apenas o número do local.
+              </p>
+            )}
           </div>
         </div>
         {/* ------------------------------ */}
@@ -252,7 +344,7 @@ export const FormFarma = () => {
               className="form-control"
               id="lng"
               {...register('lng')}
-              disabled
+              // disabled
             />
           </div>
           <div className="col-4">
@@ -264,12 +356,19 @@ export const FormFarma = () => {
               className="form-control"
               id="lng"
               {...register('lat')}
-              disabled
+              // disabled
             />
           </div>
         </div>
       </div>
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button
+          type="button"
+          onClick={handleLimpaData}
+          className="btn btn-primary me-md-2"
+        >
+          Limpar
+        </button>
         <button type="submit" className="btn btn-primary me-md-2">
           Inserir
         </button>

@@ -1,7 +1,23 @@
+import { AppContext } from '../App';
+import { useContext } from 'react';
 import { FormFarma } from '../components/FormFarma';
-import { Mapa } from '../components/Mapa';
+import { FarmaciasMap } from '../components/ListaInMap';
 
 export const PaginaFarma = () => {
+  const { setlistaFarma } = useContext(AppContext);
+
+  const getDadosMed = () => {
+    fetch(`http://localhost:3000/farma`, {
+      method: 'GET',
+      headers: { 'Content-type': 'application/json;charset=UTF-8' },
+    })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        setListaMed(dados);
+      })
+      .catch(error => console.log(error));
+  };
+  // const farmacias = [];
   return (
     <div className="p-2 mx-4">
       <p className="fs-3">Farmácias</p>
@@ -52,7 +68,7 @@ export const PaginaFarma = () => {
           aria-labelledby="nav-mapa-tab"
           tabIndex="0"
         >
-          <Mapa />
+          <FarmaciasMap />
         </div>
       </div>
     </div>

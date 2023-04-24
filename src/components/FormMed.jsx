@@ -1,20 +1,35 @@
 import { useForm } from 'react-hook-form';
-import { useContext } from 'react';
-import { AppContext } from '../App';
 
 export const FormMed = () => {
-  const { postDados } = useContext(AppContext);
-
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm();
 
+  const handleLimparData = () => {
+    setValue('nomeMed', '');
+    setValue('nomeLab', '');
+    setValue('doseMed', '');
+    setValue('descMed', '');
+    setValue('precoMed', '');
+    setValue('tipoMed', '');
+  };
+
   const onSubmit = data => {
-    postDados('med', data);
+    postDados(data);
+    handleLimparData();
+  };
+
+  const postDados = dados => {
+    fetch(`http://localhost:3000/med`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json;charset=UTF-8' },
+      body: JSON.stringify(dados),
+    })
+      .then(() => console.log('enviado com sucesso'))
+      .catch(error => console.log(error));
   };
 
   return (
@@ -137,7 +152,11 @@ export const FormMed = () => {
         <button type="submit" className="btn btn-primary me-md-2">
           Inserir
         </button>
-        <button type="onClick" className="btn btn-outline-primary">
+        <button
+          type="button"
+          onClick={handleLimparData}
+          className="btn btn-outline-primary"
+        >
           Limpar
         </button>
       </div>

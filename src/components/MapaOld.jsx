@@ -79,15 +79,13 @@ export const Mapa = () => {
       },
     ];
 
-    lojas.forEach(loja => {
+    listaFarma.forEach(loja => {
       const popupContent = (
         <div>
-          <h5>{loja.fantasia}</h5>
-          <p>Razão social: {loja.razaoSocial}</p>
+          <p>Razão social: {loja.razaosocial}</p>
           <p>CNPJ: {loja.cnpj}</p>
           <p>Email: {loja.email}</p>
           <p>Telefone: {loja.telefone}</p>
-          <p>Endereço: {loja.endereco}</p>
         </div>
       );
       const popupHTML = renderToString(popupContent);

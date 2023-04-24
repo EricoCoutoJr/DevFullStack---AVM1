@@ -1,34 +1,36 @@
 import { AppContext } from '../App';
 import { useContext } from 'react';
 
-export const getDados = path => {
-  const { setListaMed, setListaFarma } = useContext(AppContext);
+export const getDadosMed = () => {
+  const { setListaMed } = useContext(AppContext);
 
-  const setGet = (path, dados) => {
-    if (path === 'farma') {
-      setListaFarma(dados);
-    }
-    if (path === 'med') {
-      setListaMed(dados);
-    }
-  };
-  debugger;
-  //get no json server
-  fetch(`http://localhost:3000/${path}`, {
+  fetch(`http://localhost:3000/med`, {
     method: 'GET',
     headers: { 'Content-type': 'application/json;charset=UTF-8' },
   })
     .then(resposta => resposta.json())
     .then(dados => {
-      setGet(path, dados);
+      setListaMed(dados);
+    })
+    .catch(error => console.log(error));
+};
+
+export const getDadosFarma = () => {
+  const { setListaFarma } = useContext(AppContext);
+
+  //get no json server
+  fetch(`http://localhost:3000/farma`, {
+    method: 'GET',
+    headers: { 'Content-type': 'application/json;charset=UTF-8' },
+  })
+    .then(resposta => resposta.json())
+    .then(dados => {
+      setListaFarma(dados);
     })
     .catch(error => console.log(error));
 };
 
 export const postDados = (path, dados) => {
-  // post no json server
-  // post("/listaEndereco", endereco)
-
   fetch(`http://localhost:3000/${path}`, {
     method: 'POST',
     headers: { 'Content-type': 'application/json;charset=UTF-8' },

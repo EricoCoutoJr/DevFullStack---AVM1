@@ -1,9 +1,25 @@
 import { FormMed } from '../components/FormMed';
 import { ListaCardsMed } from '../components/ListaCardsMed';
+import { AppContext } from '../App';
+import { useContext } from 'react';
 
 export const PaginaMed = () => {
+  const { setListaMed } = useContext(AppContext);
+
+  const getDadosMed = () => {
+    fetch(`http://localhost:3000/med`, {
+      method: 'GET',
+      headers: { 'Content-type': 'application/json;charset=UTF-8' },
+    })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        setListaMed(dados);
+      })
+      .catch(error => console.log(error));
+  };
+
   return (
-    <div className="p-2 mx-4">
+    <div className="p-2 mx-2">
       <p className="fs-3">Medicamentos</p>
       <nav>
         <div className="nav nav-tabs" id="nav-tab" role="tablist">
@@ -28,6 +44,7 @@ export const PaginaMed = () => {
             role="tab"
             aria-controls="nav-lista"
             aria-selected="false"
+            onClick={getDadosMed}
           >
             Lista de Medicamentos
           </button>
@@ -53,9 +70,7 @@ export const PaginaMed = () => {
           tabIndex="0"
         >
           {/* Inserir aqui o módulo de lista de cards */}
-          <p>Item com a lista de medicamentos</p>
           <ListaCardsMed />
-          <p>Teste de link dos Cards</p>
           {/* Inserir aqui o módulo de lista de cards de medicamento */}
         </div>
       </div>
