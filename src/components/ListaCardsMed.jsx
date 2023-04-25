@@ -14,16 +14,20 @@ export const ListaCardsMed = () => {
   return (
     <div>
       <div className="row my-4">
-        <form className="d-flex" role="search">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">
+            Procurar por
+          </span>
           <input
-            className="form-control me-2"
             type="text"
-            placeholder="Procurar por..."
-            aria-label="Search"
+            class="form-control"
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
             value={busca}
             onChange={e => setBusca(e.target.value)}
           />
-        </form>
+        </div>
       </div>
       <div className="row">
         {listaMedFiltrados.map(med => (
