@@ -1,0 +1,11 @@
+.leaflet-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#map-wrapper {
+  position: relative;
+  width: 75%;
+  height: 100%;
+}
