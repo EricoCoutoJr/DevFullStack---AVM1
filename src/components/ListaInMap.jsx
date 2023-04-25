@@ -6,7 +6,12 @@ import { AppContext } from '../App';
 export const FarmaciasMap = () => {
   const { listaFarma } = useContext(AppContext);
 
-  const center = [-27.5969, -48.5495];
+  // para um cáuculo mais eficiente da posição do centro, seria adequado
+  // calcular a médiana da latitude e da longitude e identificar os valores
+  // maximos e mínimos para determinar a área apresentada que cubra todas
+  // as farmácias - a ser implementado posteriormente
+
+  const center = [-27.59, -48.54];
 
   return (
     <div className="p-3 mx-5 my-4 shadow bg-secondary-subtle border border-secondary-subtle rounded-3">
@@ -14,32 +19,37 @@ export const FarmaciasMap = () => {
         style={{ height: '400px' }}
         id="mapid"
         center={center}
-        zoom={13}
+        zoom={12}
         scrollWheelZoom={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
-        {/* {listaFarma.map(farmacia => (
-        <Marker key={farmacia.id} position={farmacia.geoLocal}>
-        <Popup>
-        <div>
-        <p>{farmacia.razaosocial}</p>
-        <p>{farmacia.nomefantasia}</p>
-        <p>{farmacia.telefone}</p>
-        <p>{farmacia.celular}</p>
-        <p>{farmacia.email}</p>
-        <p>
-        {farmacia.rua}, {farmacia.numero}, {farmacia.bairro}
-        </p>
-        <p>
-        {farmacia.cidade} - {farmacia.uf}, {farmacia.cep}
-        </p>
-        </div>
-        </Popup>
-      </Marker> */}
-        {/* ))} */}
+        {listaFarma.map(farmacia => {
+          console.log(farmacia);
+          return (
+            <Marker key={farmacia.id} position={[farmacia.lng, farmacia.lat]}>
+              <Popup>
+                <h3>{farmacia.nomefantasia}</h3>
+                <h6>{farmacia.rasaosocial}</h6>
+                <h6>CNPJ: {farmacia.cnpj}</h6>
+                <h6>E-mail: {farmacia.email}</h6>
+                <h6>Tel:{farmacia.telefone}</h6>
+                <a href="`https://wa.me/55${farmacia.celular}`">
+                  WhatsApp: {farmacia.celular}
+                </a>
+                <h5>Endereço</h5>
+                <h6>
+                  {farmacia.rua}, {farmacia.numero}, {farmacia.bairro}
+                </h6>
+                <h6>
+                  {farmacia.cidade} - {farmacia.uf} - CEP {farmacia.cep}
+                </h6>
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );
