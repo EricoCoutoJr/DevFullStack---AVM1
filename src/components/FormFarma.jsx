@@ -81,6 +81,8 @@ export const FormFarma = () => {
     setValue('cidade', '');
     setValue('bairro', '');
     setValue('uf', '');
+    setValue('lat', '');
+    setValue('lng', '');
   };
 
   const onSubmit = data => {
@@ -176,12 +178,12 @@ export const FormFarma = () => {
             id="FoneFarma"
             {...register('telefone', {
               pattern:
-                /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/,
+                /^(([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/,
             })}
           />
           {errors.telefone && (
             <p className="text-danger fs-6 p-3">
-              ⚠ Preencha corretamente o numero de telefone.
+              ⚠ Preencha corretamente o numero de telefone com DDD.
             </p>
           )}
         </div>
