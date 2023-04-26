@@ -27,18 +27,25 @@ export const FarmaciasMap = () => {
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
         {listaFarma.map(farmacia => {
-          console.log(farmacia);
           return (
             <Marker key={farmacia.id} position={[farmacia.lng, farmacia.lat]}>
               <Popup>
                 <h3>{farmacia.nomefantasia}</h3>
+                <hr />
                 <h6>{farmacia.rasaosocial}</h6>
                 <h6>CNPJ: {farmacia.cnpj}</h6>
                 <h6>E-mail: {farmacia.email}</h6>
                 <h6>Tel:{farmacia.telefone}</h6>
-                <a href="`https://wa.me/55${farmacia.celular}`">
-                  WhatsApp: {farmacia.celular}
+                <a
+                  href={
+                    'https://wa.me/55' + farmacia.celular.replace(/\D/g, '')
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp: ${farmacia.celular}
                 </a>
+                <hr />
                 <h5>Endereço</h5>
                 <h6>
                   {farmacia.rua}, {farmacia.numero}, {farmacia.bairro}

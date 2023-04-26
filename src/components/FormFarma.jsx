@@ -345,9 +345,13 @@ export const FormFarma = () => {
               type="numero"
               className="form-control"
               id="lng"
-              {...register('lng')}
-              // disabled
+              {...register('lng', { required: true })}
+              // disabled - será implementada quando a API de geolocalização
+              // estiver disponível e operacional
             />
+            {errors.lng && (
+              <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
+            )}
           </div>
           <div className="col-4">
             <label htmlFor="lat" className="form-label">
@@ -357,9 +361,13 @@ export const FormFarma = () => {
               type="numero"
               className="form-control"
               id="lng"
-              {...register('lat')}
-              // disabled
+              {...register('lat', { required: true })}
+              // disabled - será implementada quando a API de geolocalização
+              // estiver disponível e operacional
             />
+            {errors.lng && (
+              <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
+            )}
           </div>
         </div>
       </div>

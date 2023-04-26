@@ -64,6 +64,24 @@
       "lng": "-27.5934",
       "lat": "-48.5455",
       "id": 2
+    },
+    {
+      "cnpj": "12345678912345",
+      "razaosocial": "Farma Pum S.A.",
+      "nomefantasia": "Farmacias Ze",
+      "email": "ERICO.COUTOJR@GMAIL.COM",
+      "telefone": "48991021166",
+      "celular": "(48) 99102-1166",
+      "cep": "88070-100",
+      "rua": "Rua Santos Saraiva",
+      "numero": "1458",
+      "complemento": "Ap 306 Bl A1",
+      "bairro": "Estreito",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "lng": "-27.61",
+      "lat": "-48.59",
+      "id": 3
     }
   ]
 }

@@ -20,16 +20,6 @@ export const HeaderOn = () => {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav mx-5 mb-2 mb-lg-0">
           <li className="nav-item">
-            <Link
-              className="nav-link fs-4"
-              // style={menu == true ? '' : 'pointerEvents: none'}
-              aria-current="page"
-              to="/"
-            >
-              Home
-            </Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link fs-4" aria-current="page" to="/med">
               Medicamentos
             </Link>
@@ -37,11 +27,6 @@ export const HeaderOn = () => {
           <li className="nav-item">
             <Link className="nav-link fs-4" to="/farma">
               Farmácias
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link fs-4" to="/sobre">
-              Sobre
             </Link>
           </li>
           <li className="nav-item">
