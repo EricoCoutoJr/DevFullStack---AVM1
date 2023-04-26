@@ -1,9 +1,19 @@
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { useContext } from 'react';
 import { AppContext } from '../App';
 
 export const FarmaciasMap = () => {
+  const DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+  });
+
+  L.Marker.prototype.options.icon = DefaultIcon;
+
   const { listaFarma } = useContext(AppContext);
 
   // para um cáuculo mais eficiente da posição do centro, seria adequado
