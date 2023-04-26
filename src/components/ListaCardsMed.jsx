@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import { AppContext } from '../App';
+import tarjaVermelha from '../assets/medicamento-tarja-vermelha-300x300.png';
+import tarjaPreta from '../assets/medicamento-tarja-preta-300x300.png';
 
 export const ListaCardsMed = () => {
   const { listaMed } = useContext(AppContext);
@@ -41,14 +43,14 @@ export const ListaCardsMed = () => {
             >
               {med.tipoMed === '1' ? (
                 <img
-                  src="../src/assets/medicamento-tarja-vermelha-300x300.png"
+                  src={tarjaVermelha}
                   className="card-img-top"
                   alt="Medicamento"
                   style={{ width: `auto` }}
                 />
               ) : (
                 <img
-                  src="../src/assets/medicamento-tarja-preta-300x300.png"
+                  src={tarjaPreta}
                   className="card-img-top"
                   alt="Medicamento"
                 />
