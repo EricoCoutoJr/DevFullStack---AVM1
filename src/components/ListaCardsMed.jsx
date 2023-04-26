@@ -23,8 +23,8 @@ export const ListaCardsMed = () => {
           <input
             type="text"
             class="form-control"
-            placeholder="Username"
-            aria-label="Username"
+            placeholder="Nome Medicamento"
+            aria-label="NomeMed"
             aria-describedby="basic-addon1"
             value={busca}
             onChange={e => setBusca(e.target.value)}
