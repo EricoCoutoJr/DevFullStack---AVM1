@@ -10,6 +10,8 @@ A LABPharmacy Inc, uma renomada empresa do ramo farmacêutico, está expandindo 
 - Apresentação dos dados dos Medicamentos em forma de Card
 - Apresentação dos dados das Farmácias (Mapa ou Lista)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/48cb3b3c-3b28-4b9c-9bfd-a7680fa87d93/deploy-status)](https://app.netlify.com/sites/soft-macaron-830df5/deploys)
+
 Para utilizar este projeto como base, faça o seguinte passo-a-passo:
 
 - Clone o projeto para a sua máquina
