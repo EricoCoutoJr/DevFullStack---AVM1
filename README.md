@@ -28,6 +28,10 @@ Obs: necessário configurar SSH [(veja como clicando aqui)](https://www.youtube.
 ```bash
 npm install
 ```
+- Além disso devem ser instaladas com as seguintes libs.
+-```bash
+npm install react react-dom react-hook-form react-router-dom react-leaflet leaflet
+```
 
 - Rode o projeto
 
