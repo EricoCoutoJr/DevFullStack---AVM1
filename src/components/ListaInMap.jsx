@@ -38,7 +38,7 @@ export const FarmaciasMap = () => {
         />
         {listaFarma.map(farmacia => {
           return (
-            <Marker key={farmacia.id} position={[farmacia.lng, farmacia.lat]}>
+            <Marker key={farmacia.id} position={[farmacia.lat, farmacia.lng]}>
               <Popup>
                 <h3>{farmacia.nomefantasia}</h3>
                 <hr />

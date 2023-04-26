@@ -43,8 +43,8 @@
       "bairro": "Estreito",
       "cidade": "Florianópolis",
       "uf": "SC",
-      "lng": "-27.5966",
-      "lat": "-48.5481",
+      "lat": "-27.5841",
+      "lng": "-48.5481",
       "id": 1
     },
     {
@@ -61,8 +61,8 @@
       "bairro": "Estreito",
       "cidade": "Florianópolis",
       "uf": "SC",
-      "lng": "-27.5934",
-      "lat": "-48.5455",
+      "lat": "-27.5934",
+      "lng": "-48.5455",
       "id": 2
     },
     {
@@ -79,8 +79,8 @@
       "bairro": "Estreito",
       "cidade": "Florianópolis",
       "uf": "SC",
-      "lng": "-27.61",
-      "lat": "-48.59",
+      "lat": "-27.58",
+      "lng": "-48.58",
       "id": 3
     }
   ]
