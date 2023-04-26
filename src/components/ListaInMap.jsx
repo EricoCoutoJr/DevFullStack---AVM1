@@ -21,7 +21,7 @@ export const FarmaciasMap = () => {
   // maximos e mínimos para determinar a área apresentada que cubra todas
   // as farmácias - a ser implementado posteriormente
 
-  const center = [-27.59, -48.54];
+  const center = [-27.5966, -48.5481];
 
   return (
     <div className="p-3 mx-5 my-4 shadow bg-secondary-subtle border border-secondary-subtle rounded-3">
