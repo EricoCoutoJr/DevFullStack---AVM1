@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { GetGeoLocal } from '../models/geoLocal';
+import { getGeolocal } from '../models/geoLocal';
 
 // ---------------------------------------------------
 export const FormFarma = () => {
@@ -11,13 +11,9 @@ export const FormFarma = () => {
     formState: { errors },
   } = useForm();
 
-  const getAddress = () => {
-    // Obter os valores dos campos de endereço
-    const { rua, numero, cidade, uf, cep } = getValues();
+  // ------------------------------------------------------
 
-    // Retornar o endereço formatado como uma string
-    return `street=${rua}+${numero}&city=${cidade}&county=${bairro}&state=${uf}&country=Brazil&postcode=${cep}`;
-  };
+  // ------------------------------------------------------
 
   // Clocar aqui as ações após a saida do campo CEP
   function limpaFormulario() {
@@ -26,20 +22,51 @@ export const FormFarma = () => {
     setValue('numero', '');
     setValue('cidade', '');
     setValue('uf', '');
+    setValue('cep', '');
   }
+  // ------------------------------------------------------
+  const getGeolocal = async address => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${address}&limit=1`;
+    console.log(url);
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      if (data.length > 0) {
+        const latitude = data[0].lat;
+        const longitude = data[0].lon;
+        setValue('lat', latitude);
+        setValue('lng', longitude);
+        return true;
+      } else {
+        console.log('dados não recebidos....');
+      }
+    }
+  };
+  // ------------------------------------------------------
 
-  const onBlur = data => {
-    fetch(`https://viacep.com.br/ws/${data.cep}/json/`)
+  const onBlur = async data => {
+    await fetch(`https://viacep.com.br/ws/${data.cep}/json/`)
       .then(res => res.json())
-      .then(dadosViaCEP => {
-        if (!dadosViaCEP.erro) {
-          setValue('rua', dadosViaCEP.logradouro);
-          setValue('bairro', dadosViaCEP.bairro);
-          setValue('cidade', dadosViaCEP.localidade);
-          setValue('uf', dadosViaCEP.uf);
-          GetGeoLocal('Florianopolis, Brasil').then(({ lat, lon }) => {
-            console.log(`Latitude: ${lat}, Longitude: ${lon}`);
-          });
+      .then(dados => {
+        if (!dados.erro) {
+          setValue('rua', dados.logradouro);
+          setValue('bairro', dados.bairro);
+          setValue('cidade', dados.localidade);
+          setValue('uf', dados.uf);
+          const address =
+            getValues('numero') +
+            ' ' +
+            getValues('rua') +
+            ',' +
+            getValues('bairro') +
+            ',' +
+            getValues('cidade') +
+            ',' +
+            getValues('uf') +
+            ',' +
+            getValues('cep') +
+            ',Brasil';
+          if (getGeolocal(address)) console.log('localizado...');
         } else {
           // CEP pesquisado não foi encontrado.
           limpaFormulario();
@@ -47,26 +74,9 @@ export const FormFarma = () => {
         }
       });
   };
-  // -----------------------------------------------------
-  const GetGeoLocal = address => {
-    return fetch(
-      `https://nominatim.openstreetmap.org/?addressdetails=1&q=${address}&format=json&limit=1`,
-      {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json;charset=UTF-8' },
-        mode: 'no-cors',
-      }
-    )
-      .then(resposta => resposta.json())
-      .then(dados => {
-        console.log(dados); // Verifica o conteúdo de "dados"
-        const { lat, lon } = dados[0];
-        return { lat, lon };
-      })
-      .catch(error => console.log(error));
-  };
 
   // -----------------------------------------------------
+
   const handleLimpaData = () => {
     setValue('cnpj', '');
     setValue('razaosocial', '');
@@ -85,11 +95,26 @@ export const FormFarma = () => {
     setValue('lng', '');
   };
 
+  // ------------------------------------------------------
+
+  const postDados = async dados => {
+    await fetch(`http://localhost:3000/farma`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json;charset=UTF-8' },
+      body: JSON.stringify(dados),
+    })
+      .then(() => console.log('enviado com sucesso'))
+      .catch(error => console.log(error));
+  };
+
+  //-------------------------------------------------------
+
   const onSubmit = data => {
     postDados(data);
     handleLimpaData();
   };
-  // -----------------------------------------------------
+
+  // ------------------------------------------------------
 
   return (
     <form
@@ -156,7 +181,7 @@ export const FormFarma = () => {
           <input
             type="email"
             className="form-control"
-            id="InputEmailMed"
+            id="EmailFarma"
             aria-describedby="email"
             {...register('email', {
               required: true,
@@ -222,11 +247,12 @@ export const FormFarma = () => {
               id="cep"
               size="10"
               maxLength="9"
-              defaultValue=""
+              // defaultValue=""
               {...register('cep', {
                 required: true,
               })}
-              onBlur={handleSubmit(onBlur)}
+              // onBlur={handleSubmit(onBlur)}
+              onEnded={handleSubmit(onBlur)}
             />
             {errors.cep && (
               <p className="text-danger fs-6 p-3">
@@ -268,6 +294,7 @@ export const FormFarma = () => {
                 required: true,
                 pattern: /[0-9]/,
               })}
+              onBlur={handleSubmit(onBlur)}
             />
             {errors.numero && (
               <p className="text-danger fs-6 p-3">
@@ -336,8 +363,9 @@ export const FormFarma = () => {
               type="numero"
               className="form-control"
               id="lng"
-              {...register('lng', { required: true })}
-              // disabled - será implementada quando a API de geolocalização
+              {...register('lng')}
+              disabled
+              //  - será implementada quando a API de geolocalização
               // estiver disponível e operacional
             />
             {errors.lng && (
@@ -351,12 +379,13 @@ export const FormFarma = () => {
             <input
               type="numero"
               className="form-control"
-              id="lng"
-              {...register('lat', { required: true })}
-              // disabled - será implementada quando a API de geolocalização
+              id="lat"
+              {...register('lat')}
+              disabled
+              // - será implementada quando a API de geolocalização
               // estiver disponível e operacional
             />
-            {errors.lng && (
+            {errors.lat && (
               <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
             )}
           </div>

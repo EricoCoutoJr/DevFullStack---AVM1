@@ -62,7 +62,7 @@ export const ListaCardsMed = () => {
                 <h6 className="fs-6">
                   {med.tipoMed === '1' ? `Não Controlado` : `Controlado`}
                 </h6>
-                <h6 className="fs-6">{med.precoMed}</h6>
+                <h6 className="fs-6">R$ {med.precoMed}</h6>
               </div>
             </div>
             {/* Abaixo vai o modal do card */}

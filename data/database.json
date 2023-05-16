@@ -82,6 +82,42 @@
       "lat": "-27.58",
       "lng": "-48.58",
       "id": 3
+    },
+    {
+      "cnpj": "01234567891023",
+      "razaosocial": "Teste de Farmacia",
+      "nomefantasia": "Farmacia Teste",
+      "email": "erico_couto-junior@estudante.sc.senai.br",
+      "telefone": "4956123568",
+      "celular": "4856751232",
+      "cep": "88063300",
+      "rua": "Avenida Campeche",
+      "numero": "1190",
+      "complemento": "",
+      "bairro": "Campeche",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "lng": "-2.7397217",
+      "lat": "51.1267494",
+      "id": 4
+    },
+    {
+      "cnpj": "01234567891023",
+      "razaosocial": "lklçkçlkçkçk",
+      "nomefantasia": "çlkkçlkçklçklç",
+      "email": "erico_couto-junior@estudante.sc.senai.br",
+      "telefone": "4956123568",
+      "celular": "4856751232",
+      "cep": "88070101",
+      "rua": "Rua Santos Saraiva",
+      "numero": "51",
+      "complemento": "",
+      "bairro": "Capoeiras",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "lng": "-48.5841874",
+      "lat": "-27.5973969",
+      "id": 5
     }
   ]
 }

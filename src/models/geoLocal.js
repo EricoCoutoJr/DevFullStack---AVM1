@@ -1,15 +1,34 @@
-// Apenas retorna latitude e longitude
+// Função para buscar a geolocalização de um endereço completo
+export const getGeolocal = async enderecoCompleto => {
+  try {
+    // URL da API do Nominatim do OpenStreetMap
+    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(
+      enderecoCompleto
+    )}&limit=1`;
 
-export const GetGeoLocal = url => {
-  return fetch(
-    `https://nominatim.openstreetmap.org/search/${url}?format=json&addressdetails=1&limit=1&polygon_svg=1`,
-    {
-      method: 'GET',
-      headers: { 'Content-type': 'application/json;charset=UTF-8' },
+    // Fazendo a requisição para a API
+    const response = await fetch(url);
+
+    // Verifica se a resposta da API foi bem-sucedida
+    if (response.ok) {
+      // Extrai os dados da resposta em formato JSON
+      const data = await response.json();
+
+      // Verifica se os dados retornados contêm pelo menos um resultado
+      if (data.length > 0) {
+        // Obtendo a latitude e longitude do resultado
+        const latitude = data[0].lat;
+        const longitude = data[0].lon;
+
+        // Retorna um objeto contendo a latitude e longitude
+        return [latitude, longitude];
+      } else {
+        throw new Error('Endereço não encontrado.');
+      }
+    } else {
+      throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
     }
-  )
-    .then(resposta => resposta.json())
-    .then(dados => console.log(dados))
-    .then(lat, lon => console.log(lat, lon))
-    .catch(error => console.log(error));
+  } catch (error) {
+    console.error('Erro ao obter geolocalização:', error);
+  }
 };

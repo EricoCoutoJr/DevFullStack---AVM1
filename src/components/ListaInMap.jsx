@@ -1,3 +1,4 @@
+import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -24,28 +25,29 @@ export const FarmaciasMap = () => {
   const center = [-27.5966, -48.5481];
 
   return (
-    <div className="p-3 mx-5 my-4 shadow bg-secondary-subtle border border-secondary-subtle rounded-3">
-      <MapContainer
-        style={{ height: '400px' }}
-        id="mapid"
-        center={center}
-        zoom={12}
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-        />
-        {listaFarma.map(farmacia => {
-          return (
-            <Marker key={farmacia.id} position={[farmacia.lat, farmacia.lng]}>
-              <Popup>
-                <h3>{farmacia.nomefantasia}</h3>
-                <hr />
-                <h6>{farmacia.rasaosocial}</h6>
-                <h6>CNPJ: {farmacia.cnpj}</h6>
-                <h6>E-mail: {farmacia.email}</h6>
-                <h6>Tel:{farmacia.telefone}</h6>
+    <MapContainer
+      style={{ height: '500px' }}
+      id="mapid"
+      center={center}
+      zoom={12}
+      scrollWheelZoom={true}
+      className="p-3 mx-5 my-4 shadow bg-secondary-subtle border border-secondary-subtle rounded-3"
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+      />
+      {listaFarma.map(farmacia => {
+        return (
+          <Marker key={farmacia.id} position={[farmacia.lat, farmacia.lng]}>
+            <Popup>
+              <h3>{farmacia.nomefantasia}</h3>
+              <hr />
+              <h6>{farmacia.rasaosocial}</h6>
+              <h6>CNPJ: {farmacia.cnpj}</h6>
+              <h6>E-mail: {farmacia.email}</h6>
+              <h6>Tel:{farmacia.telefone}</h6>
+              <h6>
                 <a
                   href={
                     'https://wa.me/55' + farmacia.celular.replace(/\D/g, '')
@@ -53,21 +55,22 @@ export const FarmaciasMap = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  WhatsApp: ${farmacia.celular}
+                  <img src="./wa.png" alt="" width={25} />
+                  {farmacia.celular}
                 </a>
-                <hr />
-                <h5>Endereço</h5>
-                <h6>
-                  {farmacia.rua}, {farmacia.numero}, {farmacia.bairro}
-                </h6>
-                <h6>
-                  {farmacia.cidade} - {farmacia.uf} - CEP {farmacia.cep}
-                </h6>
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
-    </div>
+              </h6>
+              <hr />
+              <h5>Endereço</h5>
+              <h6>
+                {farmacia.rua}, {farmacia.numero}, {farmacia.bairro}
+              </h6>
+              <h6>
+                {farmacia.cidade} - {farmacia.uf} - CEP {farmacia.cep}
+              </h6>
+            </Popup>
+          </Marker>
+        );
+      })}
+    </MapContainer>
   );
 };
