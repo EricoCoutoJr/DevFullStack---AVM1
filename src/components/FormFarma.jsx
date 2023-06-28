@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { getGeolocal } from '../models/geoLocal';
 
 // ---------------------------------------------------
 export const FormFarma = () => {
@@ -15,7 +14,7 @@ export const FormFarma = () => {
 
   // ------------------------------------------------------
 
-  // Clocar aqui as ações após a saida do campo CEP
+  // Clocar aqui as ações após a saida do campo CEP Inválido
   function limpaFormulario() {
     setValue('rua', '');
     setValue('bairro', '');
@@ -23,11 +22,13 @@ export const FormFarma = () => {
     setValue('cidade', '');
     setValue('uf', '');
     setValue('cep', '');
+    setValue('lat', '');
+    setValue('lng', '');
   }
   // ------------------------------------------------------
   const getGeolocal = async address => {
+    if( !(address == ' undefined,undefined,undefined,undefined,,Brasil')) {
     const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${address}&limit=1`;
-    console.log(url);
     const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
@@ -41,40 +42,45 @@ export const FormFarma = () => {
         console.log('dados não recebidos....');
       }
     }
+    }
   };
   // ------------------------------------------------------
 
-  const onBlur = async data => {
-    await fetch(`https://viacep.com.br/ws/${data.cep}/json/`)
-      .then(res => res.json())
-      .then(dados => {
-        if (!dados.erro) {
+  const onBlur = async () => {
+    if (getValues('cep')) {
+      const url = `https://viacep.com.br/ws/${getValues('cep')}/json/`
+      const response = await fetch(url)
+      const dados = await response.json()
+        if (!dados.hasOwnProperty('erro')) {
           setValue('rua', dados.logradouro);
           setValue('bairro', dados.bairro);
           setValue('cidade', dados.localidade);
           setValue('uf', dados.uf);
-          const address =
-            getValues('numero') +
-            ' ' +
-            getValues('rua') +
-            ',' +
-            getValues('bairro') +
-            ',' +
-            getValues('cidade') +
-            ',' +
-            getValues('uf') +
-            ',' +
-            getValues('cep') +
-            ',Brasil';
-          if (getGeolocal(address)) console.log('localizado...');
         } else {
-          // CEP pesquisado não foi encontrado.
-          limpaFormulario();
-          alert('CEP não encontrado.');
+          console.log('CEP não encontrado....');
         }
-      });
+    } 
   };
+  // -----------------------------------------------------
 
+function latlon() {
+    const address =
+    getValues('numero') +
+    ' ' +
+    getValues('rua') +
+    ',' +
+    getValues('bairro') +
+    ',' +
+    getValues('cidade') +
+    ',' +
+    getValues('uf') +
+    ',' +
+    getValues('cep') +
+    ',Brasil';
+    if (!(address == " undefined,undefined,undefined,undefined,,Brasil")) {
+      getGeolocal(address)
+    };
+};
   // -----------------------------------------------------
 
   const handleLimpaData = () => {
@@ -249,10 +255,9 @@ export const FormFarma = () => {
               maxLength="9"
               // defaultValue=""
               {...register('cep', {
-                required: true,
+                required: true
               })}
-              // onBlur={handleSubmit(onBlur)}
-              onEnded={handleSubmit(onBlur)}
+              onBlur={handleSubmit(onBlur())}
             />
             {errors.cep && (
               <p className="text-danger fs-6 p-3">
@@ -294,7 +299,7 @@ export const FormFarma = () => {
                 required: true,
                 pattern: /[0-9]/,
               })}
-              onBlur={handleSubmit(onBlur)}
+              onBlur={handleSubmit(latlon())}
             />
             {errors.numero && (
               <p className="text-danger fs-6 p-3">
