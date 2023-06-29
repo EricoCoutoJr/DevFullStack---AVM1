@@ -22,8 +22,6 @@ export const FarmaciasMap = () => {
   // maximos e mínimos para determinar a área apresentada que cubra todas
   // as farmácias - a ser implementado posteriormente
 
-  const center = [-27.5966, -48.5481];
-
   const MapComponent = ({ locations }) => {
     return (
       <MapContainer center={[-27.5906434, -48.5506324]} zoom={13} style={{ height: '500px', width: '100%' }}
