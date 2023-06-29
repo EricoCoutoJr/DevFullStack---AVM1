@@ -10,6 +10,9 @@ A LABPharmacy Inc, uma renomada empresa do ramo farmacêutico, está expandindo 
 - Apresentação dos dados dos Medicamentos em forma de Card
 - Apresentação dos dados das Farmácias (Mapa ou Lista)
 
+A Imagem abaixo indica o estado de deploy da aplicação
+[![Netlify Status](https://api.netlify.com/api/v1/badges/48cb3b3c-3b28-4b9c-9bfd-a7680fa87d93/deploy-status)](https://app.netlify.com/sites/soft-appfarma/deploys)
+
 Para utilizar este projeto como base, faça o seguinte passo-a-passo:
 
 - Clone o projeto para a sua máquina
@@ -25,11 +28,10 @@ Obs: necessário configurar SSH [(veja como clicando aqui)](https://www.youtube.
 ```bash
 npm install
 ```
-
-- Rode o servidor
+- Além disso devem ser instaladas com as seguintes libs.
 
 ```bash
-npm run server
+npm install react react-dom react-hook-form react-router-dom react-leaflet leaflet
 ```
 
 - Rode o projeto
@@ -40,6 +42,9 @@ npm run dev
 
 ### Observações
 
-Este projeto vem com o [JSON Server](https://www.npmjs.com/package/json-server) instalado e configurado.
+É necessário iniciar o servidor 'json-serve. Para isso basta rodar o
+NPM como descrito abaixo. O servidor já está configurado.
 
-- Será usada a porta 3000 para acesso aos dados
+```bash
+npm run serve
+```

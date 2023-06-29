@@ -1,10 +1,10 @@
 export const Footer = () => {
   return (
     <div className="d-block text-center p-2 m-auto text-bg-dark">
-      <span className="fs-6">Appharma - Avaliação Módulo 1</span>
+      <span className="fs-6">Pharmacy Central System - LABPharmacy Inc.</span>
       <br />
       <span className="fs-6">
-        Trabalho desenvolvido por
+        Desenvolvido por
         <a
           href="mailto:erico.coutojr@gamil"
           className="fst-italic text-decoration-none"
