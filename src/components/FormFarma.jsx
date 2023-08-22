@@ -370,8 +370,7 @@ function latlon() {
               id="lng"
               {...register('lng')}
               disabled
-              //  - será implementada quando a API de geolocalização
-              // estiver disponível e operacional
+
             />
             {errors.lng && (
               <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
@@ -387,9 +386,7 @@ function latlon() {
               id="lat"
               {...register('lat')}
               disabled
-              // - será implementada quando a API de geolocalização
-              // estiver disponível e operacional
-            />
+           />
             {errors.lat && (
               <p className="text-danger fs-6 p-3">⚠ Campo obrigatório.</p>
             )}
